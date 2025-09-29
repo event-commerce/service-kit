@@ -70,10 +70,33 @@ class QueueManager
         $connection->close();
     }
 
+    /** @param string $channel @param array<string,mixed> $payload */
+    public function send(string $channel, array $payload): void
+    {
+        // Service-kit envelope metadata'sını ekle
+        $envelope = [
+            'service' => config('service-kit.service.name', config('app.name', 'unknown-service')),
+            'environment' => config('app.env', 'unknown'),
+            'hostname' => gethostname(),
+        ];
+        $instanceId = config('service-kit.service.instance_id');
+        if (!empty($instanceId)) {
+            $envelope['instance_id'] = $instanceId;
+        }
+        if (!isset($payload['correlation_id'])) {
+            $correlationId = app(\EventSoft\ServiceKit\Correlation\CorrelationId::class);
+            $envelope['correlation_id'] = $correlationId->get();
+        }
+        
+        $enrichedPayload = array_replace($envelope, $payload);
+        $this->publish($channel, $enrichedPayload);
+    }
+
     /** @param array<string,mixed> $payload */
     public function sendLog(array $payload): void
     {
-        $this->publish('logs', $payload);
+        // Backward compatibility için log-messages channel'ına gönder
+        $this->send('logs', $payload);
     }
 
     /** @param array<string,mixed> $payload */
