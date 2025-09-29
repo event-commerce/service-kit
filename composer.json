@@ -24,7 +24,8 @@
                 "EventSoft\\ServiceKit\\Providers\\HttpClientServiceProvider",
                 "EventSoft\\ServiceKit\\Providers\\ContextServiceProvider",
                 "EventSoft\\ServiceKit\\Providers\\HttpLoggingServiceProvider",
-                "EventSoft\\ServiceKit\\Providers\\QueueServiceProvider"
+                "EventSoft\\ServiceKit\\Providers\\QueueServiceProvider",
+                "EventSoft\\ServiceKit\\Providers\\MiddlewareServiceProvider"
             ],
             "aliases": {
                 "Log": "EventSoft\\ServiceKit\\Facades\\Log",

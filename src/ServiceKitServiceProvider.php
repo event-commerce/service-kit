@@ -12,6 +12,7 @@ use EventSoft\ServiceKit\Correlation\CorrelationId;
 use EventSoft\ServiceKit\Exceptions\ExceptionEnricher;
 use EventSoft\ServiceKit\Performance\PerformanceMonitor;
 use EventSoft\ServiceKit\UserJourney\UserJourneyTracker;
+use EventSoft\ServiceKit\Providers\MiddlewareServiceProvider;
 use Illuminate\Contracts\Container\Container;
 use Illuminate\Support\ServiceProvider;
 
@@ -77,5 +78,7 @@ class ServiceKitServiceProvider extends ServiceProvider
         $this->publishes([
             __DIR__ . '/../config/service-kit.php' => config_path('service-kit.php'),
         ], 'service-kit-config');
+
+        $this->app->register(MiddlewareServiceProvider::class);
     }
 }

@@ -7,6 +7,7 @@ use EventSoft\ServiceKit\Enums\LogType;
 use EventSoft\ServiceKit\Managers\LogManager;
 use EventSoft\ServiceKit\Managers\PerformanceManager;
 use EventSoft\ServiceKit\Context\ContextManager;
+use EventSoft\ServiceKit\Correlation\CorrelationId;
 use GuzzleHttp\Client;
 use GuzzleHttp\Exception\GuzzleException;
 use GuzzleHttp\HandlerStack;
@@ -24,7 +25,8 @@ class HttpClient
 
     public function __construct(
         private readonly LogManager $logManager,
-        private readonly PerformanceManager $performanceManager
+        private readonly PerformanceManager $performanceManager,
+        private readonly CorrelationId $correlationId
     ) {
         $this->config = config('service-kit.http_client', []);
         $this->client = $this->createClient();
@@ -206,8 +208,10 @@ class HttpClient
             'Content-Type' => 'application/json',
         ];
 
-        if (app()->has('correlation-id')) {
-            $headers['X-Correlation-Id'] = app()->get('correlation-id');
+        // CorrelationId'yi otomatik olarak ekle
+        $correlationId = $this->correlationId->get();
+        if (!empty($correlationId)) {
+            $headers['X-Correlation-Id'] = $correlationId;
         }
 
         if (ContextManager::getTenantId()) {
