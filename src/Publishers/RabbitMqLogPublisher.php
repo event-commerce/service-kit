@@ -20,12 +20,18 @@ class RabbitMqLogPublisher implements LogPublisherInterface
     public function publish(array $payload): void
     {
         try {
+            // DEBUG: RabbitMQ'ya gönderilen payload'ı logla
+            error_log('=== RABBITMQ PUBLISHER DEBUG ===');
+            error_log('Publishing payload: ' . json_encode($payload, JSON_PRETTY_PRINT));
+            
             $connection = $this->createConnection();
             $channel = $connection->channel();
             
             $this->declareExchange($channel);
             
             $message = $this->createMessage($payload);
+            error_log('Message body: ' . $message->getBody());
+            
             $channel->basic_publish(
                 $message,
                 $this->config['exchange'] ?? 'logs',
@@ -34,7 +40,11 @@ class RabbitMqLogPublisher implements LogPublisherInterface
             
             $channel->close();
             $connection->close();
+            
+            error_log('Message published successfully');
+            error_log('================================');
         } catch (\Throwable $e) {
+            error_log('RabbitMQ publish failed: ' . $e->getMessage());
             throw LogPublishingException::publishFailed($e->getMessage());
         }
     }
