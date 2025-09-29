@@ -1,0 +1,45 @@
+{
+    "name": "eventsoft/service-kit",
+    "description": "Shared infrastructure kit for EventSoft microservices (logging, messaging, metrics).",
+    "type": "library",
+    "license": "MIT",
+    "version": "0.1.0",
+    "require": {
+        "php": "^8.2",
+        "illuminate/support": "^12.0",
+        "illuminate/contracts": "^12.0",
+        "illuminate/http": "^12.0",
+        "php-amqplib/php-amqplib": "^3.5",
+        "guzzlehttp/guzzle": "^7.8"
+    },
+    "autoload": {
+        "psr-4": {
+            "EventSoft\\ServiceKit\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "EventSoft\\ServiceKit\\Providers\\LoggingServiceProvider",
+                "EventSoft\\ServiceKit\\Providers\\HttpClientServiceProvider",
+                "EventSoft\\ServiceKit\\Providers\\ContextServiceProvider",
+                "EventSoft\\ServiceKit\\Providers\\HttpLoggingServiceProvider",
+                "EventSoft\\ServiceKit\\Providers\\QueueServiceProvider"
+            ],
+            "aliases": {
+                "Log": "EventSoft\\ServiceKit\\Facades\\Log",
+                "Performance": "EventSoft\\ServiceKit\\Facades\\Performance",
+                "Context": "EventSoft\\ServiceKit\\Facades\\Context",
+                "UserJourney": "EventSoft\\ServiceKit\\Facades\\UserJourney",
+                "Http": "EventSoft\\ServiceKit\\Facades\\Http",
+                "User": "EventSoft\\ServiceKit\\Facades\\User",
+                "Auth": "EventSoft\\ServiceKit\\Facades\\Auth",
+                "Ids": "EventSoft\\ServiceKit\\Facades\\Ids",
+                "Queue": "EventSoft\\ServiceKit\\Facades\\Queue"
+            }
+        }
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true
+}
+
