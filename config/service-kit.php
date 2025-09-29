@@ -7,6 +7,10 @@
  * - KitLog::info() → logs channel → log-messages queue → Graylog
  * - KitQueue::send('events', $payload) → events channel → events queue → Events consumer
  * - KitQueue::send('metrics', $payload) → metrics channel → metrics queue → Metrics consumer
+ * 
+ * Dead Letter Exchange:
+ * - TTL süresi dolan veya reddedilen mesajlar dlx exchange'ine gider
+ * - dlx exchange'i manuel olarak oluşturulmalı ve consumer'ları olmalı
  */
 
 return [
@@ -47,6 +51,7 @@ return [
         'routing_key' => env('RABBITMQ_ROUTING_KEY', 'log-messages'),
         'queue' => env('RABBITMQ_QUEUE', 'log-messages'),
         'persistent' => (bool) env('RABBITMQ_PERSISTENT', true),
+        'dead_letter_exchange' => env('RABBITMQ_DEAD_LETTER_EXCHANGE', 'dlx'),
         'ssl' => [
             'enabled' => (bool) env('RABBITMQ_SSL_ENABLED', false),
         ],

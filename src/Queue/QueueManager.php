@@ -53,6 +53,12 @@ class QueueManager
         $args = [];
         if ($ttl > 0) { $args['x-message-ttl'] = ['I', $ttl]; }
         if ($maxLength > 0) { $args['x-max-length'] = ['I', $maxLength]; }
+        
+        // Dead letter exchange ekle
+        $deadLetterExchange = $this->amqpConfig['dead_letter_exchange'] ?? null;
+        if ($deadLetterExchange) {
+            $args['x-dead-letter-exchange'] = ['S', $deadLetterExchange];
+        }
 
         // Declare queue
         $channel->queue_declare($queueName, false, $durable, false, false, false, $args);
