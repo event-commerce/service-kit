@@ -1,5 +1,14 @@
 <?php
 
+/**
+ * Service-Kit Configuration
+ * 
+ * Queue Usage:
+ * - KitLog::info() → logs channel → log-messages queue → Graylog
+ * - KitQueue::send('events', $payload) → events channel → events queue → Events consumer
+ * - KitQueue::send('metrics', $payload) → metrics channel → metrics queue → Metrics consumer
+ */
+
 return [
     'correlation' => [
         'header' => 'X-Correlation-Id',
@@ -45,9 +54,9 @@ return [
 
     'queues' => [
         'channels' => [
-            'logs' => env('SERVICE_KIT_QUEUE_LOG_CHANNEL', 'log-messages'),
-            'metrics' => env('SERVICE_KIT_QUEUE_METRICS_CHANNEL', 'metrics'),
-            'events' => env('SERVICE_KIT_QUEUE_EVENTS_CHANNEL', 'events'),
+            'logs' => env('SERVICE_KIT_QUEUE_LOG_CHANNEL', 'log-messages'),      // Graylog'a gider
+            'metrics' => env('SERVICE_KIT_QUEUE_METRICS_CHANNEL', 'metrics'),    // Metrics consumer'a gider
+            'events' => env('SERVICE_KIT_QUEUE_EVENTS_CHANNEL', 'events'),       // Events consumer'a gider
         ],
         'settings' => [
             'logs' => [
