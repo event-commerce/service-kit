@@ -66,12 +66,12 @@ return [
             ],
             'metrics' => [
                 'durable' => (bool) env('SERVICE_KIT_QUEUE_METRICS_DURABLE', true),
-                'ttl' => (int) env('SERVICE_KIT_QUEUE_METRICS_TTL', 604800000),
+                'ttl' => (int) env('SERVICE_KIT_QUEUE_METRICS_TTL', 604800000), // 7 gün (168 saat)
                 'max_length' => (int) env('SERVICE_KIT_QUEUE_METRICS_MAX_LENGTH', 50000),
             ],
             'events' => [
                 'durable' => (bool) env('SERVICE_KIT_QUEUE_EVENTS_DURABLE', true),
-                'ttl' => (int) env('SERVICE_KIT_QUEUE_EVENTS_TTL', 2592000000),
+                'ttl' => (int) env('SERVICE_KIT_QUEUE_EVENTS_TTL', 86400000), // 1 gün (24 saat)
                 'max_length' => (int) env('SERVICE_KIT_QUEUE_EVENTS_MAX_LENGTH', 100000),
             ],
         ],
